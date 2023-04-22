@@ -10,4 +10,4 @@ Future<void> main() async {
 final supabase = Supabase.instance.client;
 
 const supabaseUrl = 'https://dlbpvolnydaqoexyciiy.supabase.co';
-final supabaseKey = const String.fromEnvironment('SUPABASE_KEY');
+const supabaseKey = String.fromEnvironment('SUPABASE_KEY');

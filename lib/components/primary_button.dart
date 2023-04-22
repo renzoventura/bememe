@@ -8,11 +8,14 @@ class PrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        onTap();
-      },
-      child: Text(text),
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: () {
+          onTap();
+        },
+        child: Text(text.toUpperCase()),
+      ),
     );
   }
 }

@@ -2,7 +2,6 @@ import 'package:bememe/components/primary_button.dart';
 import 'package:bememe/components/text_form.dart';
 import 'package:bememe/main.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -14,8 +13,16 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  TextEditingController userName = TextEditingController();
+  TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    email.dispose();
+    password.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +37,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               TextForm(
-                label: 'Username',
-                controller: userName,
+                label: 'Email',
+                controller: email,
               ),
               TextForm(
                 label: 'password',
@@ -40,13 +47,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               PrimaryButton(
                 onTap: () async {
                   final AuthResponse res = await supabase.auth.signUp(
-                    email: userName.text,
+                    email: email.text,
                     password: password.text,
                   );
-                  final Session? session = res.session;
-                  print(session);
-                  final User? user = res.user;
-                  print(user);
                 },
                 text: "Register",
               ),
