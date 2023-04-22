@@ -1,11 +1,9 @@
 import 'package:bememe/components/primary_button.dart';
 import 'package:bememe/components/text_form.dart';
 import 'package:bememe/main.dart';
-import 'package:bememe/screens/feed_screen/screens/feed_screen.dart';
 import 'package:bememe/screens/register/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginScreen extends StatefulWidget {
   static String path = "/";
@@ -49,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               PrimaryButton(
                 onTap: () async {
-                  final AuthResponse res = await supabase.auth.signInWithPassword(
+                  await supabase.auth.signInWithPassword(
                     email: email.text,
                     password: password.text,
                   );

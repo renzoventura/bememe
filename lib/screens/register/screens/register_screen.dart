@@ -2,7 +2,6 @@ import 'package:bememe/components/primary_button.dart';
 import 'package:bememe/components/text_form.dart';
 import 'package:bememe/main.dart';
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class RegisterScreen extends StatefulWidget {
   static String path = "register";
@@ -46,7 +45,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               PrimaryButton(
                 onTap: () async {
-                  final AuthResponse res = await supabase.auth.signUp(
+                  await supabase.auth.signUp(
                     email: email.text,
                     password: password.text,
                   );
