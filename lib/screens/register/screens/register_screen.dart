@@ -1,6 +1,9 @@
 import 'package:bememe/components/primary_button.dart';
+import 'package:bememe/components/text_form.dart';
+import 'package:bememe/main.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class RegisterScreen extends StatefulWidget {
   static String path = "register";
@@ -11,13 +14,8 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  TextEditingController userName = TextEditingController();
+  TextEditingController password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,30 +24,36 @@ class _RegisterScreenState extends State<RegisterScreen> {
         title: const Text('REGISTER'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            PrimaryButton(
-              onTap: () {
-                context.pop();
-              },
-              text: 'Go back',
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              TextForm(
+                label: 'Username',
+                controller: userName,
+              ),
+              TextForm(
+                label: 'password',
+                controller: password,
+              ),
+              PrimaryButton(
+                onTap: () async {
+                  final AuthResponse res = await supabase.auth.signUp(
+                    email: userName.text,
+                    password: password.text,
+                  );
+                  final Session? session = res.session;
+                  print(session);
+                  final User? user = res.user;
+                  print(user);
+                },
+                text: "Register",
+              ),
+            ],
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
