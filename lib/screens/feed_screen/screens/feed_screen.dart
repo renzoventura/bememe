@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class FeedScreen extends StatefulWidget {
+  static String path = "feed";
+
   const FeedScreen({super.key});
 
   @override

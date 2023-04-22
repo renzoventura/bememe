@@ -1,6 +1,9 @@
+import 'package:bememe/components/primary_button.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class RegisterScreen extends StatefulWidget {
+  static String path = "register";
   const RegisterScreen({super.key});
 
   @override
@@ -32,6 +35,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            PrimaryButton(
+              onTap: () {
+                context.pop();
+              },
+              text: 'Go back',
             ),
           ],
         ),

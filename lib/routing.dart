@@ -7,22 +7,29 @@ import 'package:go_router/go_router.dart';
 final GoRouter router = GoRouter(
   routes: <RouteBase>[
     GoRoute(
-      path: '/',
+      name: Routes.login.name,
+      path: LoginScreen.path,
       builder: (BuildContext context, GoRouterState state) {
         return const LoginScreen();
       },
-    ),
-    GoRoute(
-      path: '/feed',
-      builder: (BuildContext context, GoRouterState state) {
-        return const FeedScreen();
-      },
-    ),
-    GoRoute(
-      path: '/register',
-      builder: (BuildContext context, GoRouterState state) {
-        return const RegisterScreen();
-      },
+      routes: [
+        GoRoute(
+          name: Routes.register.name,
+          path: RegisterScreen.path,
+          builder: (BuildContext context, GoRouterState state) {
+            return const RegisterScreen();
+          },
+        ),
+        GoRoute(
+          name: Routes.feed.name,
+          path: FeedScreen.path,
+          builder: (BuildContext context, GoRouterState state) {
+            return const FeedScreen();
+          },
+        ),
+      ],
     ),
   ],
 );
+
+enum Routes { login, feed, register }
