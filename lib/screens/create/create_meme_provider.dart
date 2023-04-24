@@ -17,14 +17,18 @@ class CreateMemeProvider extends StateNotifier<CreateMemeState> {
   Future<String?> createPost(String body) async {
     try {
       setLoading(true);
-      //Should extract this in another file - service/data layer
       Session? sessionUser = supabase.auth.currentSession;
-      await supabase.from('Posts').insert({'body': state.body}).eq("id", sessionUser?.user.id);
+      await supabase.from('posts').insert({
+        'body': state.body,
+        'user': sessionUser?.user.id,
+      });
 
       return null;
+    } on PostgrestException catch (e) {
+      print(e.toString());
+      return e.message;
     } catch (e) {
       print(e.toString());
-      print('Something went wrong');
       return e.toString();
     } finally {
       setLoading(false);
