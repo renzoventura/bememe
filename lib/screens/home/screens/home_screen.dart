@@ -1,19 +1,31 @@
+import 'package:bememe/components/primary_button.dart';
 import 'package:bememe/routing.dart';
+import 'package:bememe/screens/create/create_meme_provider.dart';
+import 'package:bememe/screens/home/meme_feed_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   static String path = "/home";
 
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final provider = ref.watch(memeFeedProvider.notifier);
+
+    final state = ref.watch(memeFeedProvider);
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -31,10 +43,12 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: const [],
-            )
+            PrimaryButton(
+              onTap: () {
+                provider.getMemes();
+              },
+              text: 'Load stuff',
+            ),
           ],
         ),
       ),

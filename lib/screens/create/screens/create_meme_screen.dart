@@ -45,6 +45,7 @@ class _CreateMindSheetState extends ConsumerState<CreateMemeScreen> {
                 decoration: const InputDecoration(
                   hintText: 'Enter some text',
                 ),
+                onChanged: provider.setBody,
               ),
               state.isLoading
                   ? const CircularProgressIndicator()
