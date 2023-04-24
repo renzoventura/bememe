@@ -1,19 +1,21 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:bememe/components/primary_button.dart';
 import 'package:bememe/components/text_form.dart';
-import 'package:bememe/main.dart';
-import 'package:bememe/screens/register/screens/register_screen.dart';
+import 'package:bememe/routing.dart';
+import 'package:bememe/screens/login/login_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:bememe/utils/show_popup.dart';
 
-class LoginScreen extends StatefulWidget {
-  static String path = "/";
+class LoginScreen extends ConsumerStatefulWidget {
+  static String path = "/login";
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
@@ -26,6 +28,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = ref.watch(loginProvider.notifier);
+    final state = ref.watch(loginProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('REGISTER'),
@@ -40,32 +44,33 @@ class _LoginScreenState extends State<LoginScreen> {
               TextForm(
                 label: 'Email',
                 controller: email,
+                onChange: provider.setEmail,
               ),
               TextForm(
                 label: 'password',
                 controller: password,
+                onChange: provider.setPassword,
               ),
-              PrimaryButton(
-                onTap: () async {
-                  await supabase.auth.signInWithPassword(
-                    email: email.text,
-                    password: password.text,
-                  );
-                },
-                text: "Sign in",
-              ),
-              const Spacer(),
+              const SizedBox(height: 64),
+              state.isLoading
+                  ? const CircularProgressIndicator()
+                  : PrimaryButton(
+                      onTap: () {
+                        provider.login().then((value) {
+                          if (value == null) {
+                            context.pushNamed(Routes.home.name);
+                          } else {
+                            showPopup(value);
+                          }
+                        });
+                      },
+                      text: "Login",
+                    ),
               PrimaryButton(
                 onTap: () {
-                  context.pushNamed(RegisterScreen.path);
+                  context.pushNamed(Routes.register.name);
                 },
-                text: 'Go to register',
-              ),
-              PrimaryButton(
-                onTap: () {
-                  supabase.auth.signOut();
-                },
-                text: 'Sign out',
+                text: 'Register',
               ),
               const Spacer(),
             ],

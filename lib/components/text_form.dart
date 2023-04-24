@@ -5,9 +5,11 @@ class TextForm extends StatelessWidget {
     Key? key,
     required this.label,
     required this.controller,
+    required this.onChange,
   }) : super(key: key);
   final String label;
   final TextEditingController controller;
+  final Function(String) onChange;
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +18,7 @@ class TextForm extends StatelessWidget {
       decoration: InputDecoration(
         label: Text(label),
       ),
+      onChanged: onChange,
     );
   }
 }
