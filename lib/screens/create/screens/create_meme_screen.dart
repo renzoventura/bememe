@@ -1,4 +1,5 @@
 import 'package:bememe/components/primary_button.dart';
+import 'package:bememe/screens/home/meme_feed_provider.dart';
 import 'package:bememe/utils/show_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,6 +29,8 @@ class _CreateMindSheetState extends ConsumerState<CreateMemeScreen> {
   Widget build(BuildContext context) {
     final provider = ref.watch(createMemeProvider.notifier);
     final state = ref.watch(createMemeProvider);
+    final memeProvider = ref.watch(memeFeedProvider.notifier);
+
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
@@ -54,13 +57,15 @@ class _CreateMindSheetState extends ConsumerState<CreateMemeScreen> {
                         provider.createPost(controller.text).then((value) {
                           if (value == null) {
                             showPopup("Post created successfully");
+                            memeProvider.getMemes();
                             context.pop();
                           } else {
                             showPopup(value);
                           }
                         });
                       },
-                      text: 'Submit'),
+                      text: 'Submit',
+                    ),
             ],
           ),
         ),

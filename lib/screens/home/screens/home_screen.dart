@@ -1,6 +1,7 @@
 import 'package:bememe/components/primary_button.dart';
 import 'package:bememe/routing.dart';
 import 'package:bememe/screens/create/create_meme_provider.dart';
+import 'package:bememe/screens/home/components/meme_feed.dart';
 import 'package:bememe/screens/home/meme_feed_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -49,6 +50,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               },
               text: 'Load stuff',
             ),
+            const MemeFeed(),
           ],
         ),
       ),

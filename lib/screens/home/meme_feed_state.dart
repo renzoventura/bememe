@@ -5,13 +5,15 @@
 // Using Strings means having to call the update state on provider on 'OnChange'
 
 class MemeFeedState {
-  MemeFeedState({ this.isLoading = false});
+  MemeFeedState({this.isLoading = false, required this.memes});
 
+  final List<dynamic> memes;
   final bool isLoading;
 
-  MemeFeedState copyWith({String? email, String? password, bool? isLoading}) {
+  MemeFeedState copyWith({bool? isLoading, List? memes}) {
     return MemeFeedState(
       isLoading: isLoading ?? this.isLoading,
+      memes: memes ?? this.memes,
     );
   }
 }
